@@ -35,7 +35,19 @@ const driveDom = (() => {
     return !!viewer && viewer.docEl.isConnected && isVisible(viewer.docEl);
   }
 
-  // 새 탭: URL. 오버레이: 툴바 파일명과 aria-label이 일치하는 그리드 항목의 data-id (유일할 때만).
+  // 그리드 항목이 파일명 name을 가리키는지.
+  // 바둑판 보기: aria-label = "파일명 PDF 추가 정보…" / 목록 보기: aria-label 없이 파일명만 담긴 하위 칸이 있다.
+  function itemHasName(item, name) {
+    const label = norm(item.getAttribute('aria-label'));
+    if (label === name || label.startsWith(name + ' ')) return true;
+    if (norm(item.textContent) === name) return true;
+    for (const el of item.querySelectorAll('*')) {
+      if (el.childElementCount === 0 && norm(el.textContent) === name) return true;
+    }
+    return false;
+  }
+
+  // 새 탭: URL. 오버레이: 툴바 파일명과 일치하는 그리드 항목의 data-id (유일할 때만).
   function getFileId() {
     try {
       const fromUrl = location.pathname.match(FILE_URL_RE)?.[1];
@@ -48,10 +60,7 @@ const driveDom = (() => {
         .filter(Boolean);
       for (const name of names) {
         const ids = new Set(gridItems
-          .filter((g) => {
-            const label = norm(g.getAttribute('aria-label'));
-            return label === name || label.startsWith(name + ' ');
-          })
+          .filter((g) => itemHasName(g, name))
           .map((g) => g.getAttribute('data-id')));
         if (ids.size === 1) return [...ids][0];
         if (ids.size > 1) return null; // 동명 파일: 오기록보다 미추적이 낫다
