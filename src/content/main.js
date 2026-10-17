@@ -10,22 +10,32 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const isCurrent = (token) => session?.token === token;
 
 // 목표 페이지가 준비될 때까지 재시도하고, 타임아웃 시 조용히 포기한다 (ADR-001 규칙 4, R-03)
+// 반환: 'moved'(직접 이동함) | 'already'(드라이브가 이미 그 페이지를 표시 중) | 'failed'
 async function jumpTo(viewer, page, token) {
   const deadline = Date.now() + JUMP_TIMEOUT_MS;
+  let scrolled = false;
   while (Date.now() < deadline && isCurrent(token) && driveDom.isAlive(viewer)) {
-    if (driveDom.getCurrentPage(viewer) === page) return true;
+    if (driveDom.getCurrentPage(viewer) === page) return scrolled ? 'moved' : 'already';
     driveDom.scrollToPage(viewer, page);
+    scrolled = true;
     await sleep(JUMP_RETRY_MS);
   }
-  return false;
+  return 'failed';
+}
+
+// 이동 성공 시에만, 설정에서 끄지 않았을 때 토스트를 띄운다 (FR-6)
+async function notifyMoved(page) {
+  if (!(await settingsStore.load()).toast) return;
+  toast.show(chrome.i18n.getMessage('toastMoved', [String(page)]));
 }
 
 async function onViewerOpen(fileId, viewer, token) {
   const saved = await bookmarkStore.open(fileId);
   if (!isCurrent(token)) return;
   if (saved) {
-    const ok = await jumpTo(viewer, saved, token);
-    log(ok ? '이동 성공' : '이동 포기', fileId, saved);
+    const result = await jumpTo(viewer, saved, token);
+    log('이동 결과', result, fileId, saved);
+    if (result === 'moved' && isCurrent(token)) notifyMoved(saved).catch((e) => log('토스트 실패', e));
   }
   if (!isCurrent(token)) return;
   session.teardown = startTracking(fileId, viewer);

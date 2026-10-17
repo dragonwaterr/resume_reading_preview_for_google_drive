@@ -1,0 +1,37 @@
+{
+  "extName": {
+    "message": "PDF Pick Up for Google Drive™",
+    "description": "Extension name. Must keep the '... for Google Drive™' form (trademark guidelines)."
+  },
+  "extDescription": {
+    "message": "Reopens Google Drive™ PDF previews at the page you last viewed. Not affiliated with Google.",
+    "description": "Extension description shown in chrome://extensions."
+  },
+  "toastMoved": {
+    "message": "Moved to page $PAGE$",
+    "description": "Toast shown after automatically jumping to the last viewed page.",
+    "placeholders": {
+      "page": { "content": "$1", "example": "47" }
+    }
+  },
+  "optionsTitle": {
+    "message": "PDF Pick Up settings",
+    "description": "Options page title."
+  },
+  "optionsToastLabel": {
+    "message": "Show a notice after jumping to your last page",
+    "description": "Label of the toast on/off checkbox."
+  },
+  "optionsToastHint": {
+    "message": "A short message appears at the bottom of the preview.",
+    "description": "Helper text under the toast checkbox."
+  },
+  "optionsSaved": {
+    "message": "Saved",
+    "description": "Status after the setting is saved."
+  },
+  "optionsSaveFailed": {
+    "message": "Couldn't save. Please try again.",
+    "description": "Status when saving the setting fails."
+  }
+}

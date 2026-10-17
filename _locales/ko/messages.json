@@ -1,0 +1,29 @@
+{
+  "extName": {
+    "message": "PDF 이어보기 for Google Drive™"
+  },
+  "extDescription": {
+    "message": "Google Drive™ PDF 미리보기를 지난번에 보던 페이지에서 다시 열어 줍니다. Google과 제휴 관계가 없습니다."
+  },
+  "toastMoved": {
+    "message": "$PAGE$페이지로 이동했어요",
+    "placeholders": {
+      "page": { "content": "$1", "example": "47" }
+    }
+  },
+  "optionsTitle": {
+    "message": "PDF 이어보기 설정"
+  },
+  "optionsToastLabel": {
+    "message": "지난 페이지로 이동하면 알림 표시"
+  },
+  "optionsToastHint": {
+    "message": "미리보기 하단에 짧은 메시지가 잠깐 나타납니다."
+  },
+  "optionsSaved": {
+    "message": "저장했어요"
+  },
+  "optionsSaveFailed": {
+    "message": "저장하지 못했어요. 다시 시도해 주세요."
+  }
+}
