@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "PDF Pick Up for Google Drive™",
+  "version": "0.1.0",
+  "description": "Reopens Google Drive™ PDF previews at the page you last viewed.",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://drive.google.com/*"],
+      "js": [
+        "src/content/log.js",
+        "src/content/driveDom.js",
+        "src/content/bookmarkStore.js",
+        "src/content/tracker.js",
+        "src/content/main.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

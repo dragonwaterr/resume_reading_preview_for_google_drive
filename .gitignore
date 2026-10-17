@@ -1,0 +1,9 @@
+# IDE / OS
+.idea/
+.DS_Store
+
+# Claude Code 로컬 설정
+.claude/settings.local.json
+
+# 배포 패키지
+*.zip
