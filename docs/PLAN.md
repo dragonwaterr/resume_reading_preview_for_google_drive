@@ -193,6 +193,7 @@ async function onViewerOpen(fileId) {
 ---
 
 ## 8. 웹스토어 출시 체크리스트
+- 상태(2026-10-17): **심사 제출 완료** (v0.1.0, 공개). 개인정보처리방침 `…/privacy.html` 200 확인 — Pages 루트(`/`)는 index가 없어 404이며 무관
 - [x] 이름: "〇〇 for Google Drive™" 형식, 기존 "PDF Bookmarks for Google Drive"와 혼동되지 않는 이름, 스토어 동명 검색 완료
   - 확정(2026-10-17): 영문 `Resume Reading for Google Drive™` / 한국어 로케일 `PDF 이어보기 for Google Drive™`
   - "Resume Preview"는 영어권에서 이력서(résumé) 미리보기로 읽힐 수 있어 기각. 저장소 이름도 `resume_reading_preview_for_google_drive`로 변경
