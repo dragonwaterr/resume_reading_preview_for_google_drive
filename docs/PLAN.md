@@ -201,6 +201,8 @@ async function onViewerOpen(fileId) {
 - [ ] 개인정보 보호 탭: 단일 목적 설명, 권한별 사유(storage, drive.google.com), 원격 코드 미사용, 데이터 사용 공시
 - [ ] 개인정보처리방침 URL: "개발자는 데이터를 수집하지 않으며 fileId·페이지 번호는 사용자 브라우저와 Chrome 동기화에만 저장"
 - [ ] 배포 범위: Public
+- [ ] manifest.json의 개발용 `key` 필드 제거 (두 기기 sync 테스트용 고정 ID. 스토어 등록 후 ID를 유지하려면 대시보드의 공개키로 교체)
+- [ ] `src/content/log.js`의 `DEBUG`를 false로 변경, `spike/`·`tests/`·`docs/` 제외
 - [ ] zip 루트에 manifest.json 위치 확인 후 제출
 
 ---

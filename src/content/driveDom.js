@@ -47,24 +47,34 @@ const driveDom = (() => {
     return false;
   }
 
+  // 폴링마다 그리드 전체를 훑지 않도록, 같은 폴더·같은 툴바 파일명이면 직전 매칭 결과를 재사용한다
+  let nameMatchCache = { key: null, id: null };
+
   // 새 탭: URL. 오버레이: 툴바 파일명과 일치하는 그리드 항목의 data-id (유일할 때만).
   function getFileId() {
     try {
       const fromUrl = location.pathname.match(FILE_URL_RE)?.[1];
       if (fromUrl) return fromUrl;
-      const gridItems = [...document.querySelectorAll('[data-id]')]
-        .filter((el) => el.closest('[role="grid"], [role="treegrid"]'));
       const names = [...document.querySelectorAll('[role="heading"]')]
         .filter((h) => isVisible(h) && !h.closest('[role="document"], [role="grid"], [role="treegrid"]'))
         .map((h) => norm(h.textContent))
         .filter(Boolean);
+      const cacheKey = location.href + '\n' + names.join('\n');
+      if (nameMatchCache.key === cacheKey) return nameMatchCache.id;
+
+      const gridItems = [...document.querySelectorAll('[data-id]')]
+        .filter((el) => el.closest('[role="grid"], [role="treegrid"]'));
+      let id = null;
       for (const name of names) {
         const ids = new Set(gridItems
           .filter((g) => itemHasName(g, name))
           .map((g) => g.getAttribute('data-id')));
-        if (ids.size === 1) return [...ids][0];
-        if (ids.size > 1) return null; // 동명 파일: 오기록보다 미추적이 낫다
+        if (ids.size === 1) id = [...ids][0];
+        if (ids.size >= 1) break; // 2개 이상은 동명 파일: 오기록보다 미추적이 낫다
       }
+      // 찾지 못한 결과는 캐시하지 않는다 (그리드 항목이 늦게 렌더링될 수 있음)
+      nameMatchCache = id ? { key: cacheKey, id } : { key: null, id: null };
+      return id;
     } catch (e) {
       log('getFileId 실패', e);
     }
