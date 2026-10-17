@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- 128px 스토어 아이콘. 원본 디자인: 흰 타일 + 구름 + PDF 문서 + 책갈피 리본 + 재생 배지 -->
+  <rect x="8" y="8" width="112" height="112" rx="26" fill="#ffffff" stroke="#dde4ee" stroke-width="1.5"/>
+  <g fill="#bcdbf7">
+    <circle cx="38" cy="74" r="15"/>
+    <circle cx="50" cy="56" r="16"/>
+    <circle cx="94" cy="72" r="15"/>
+    <rect x="26" y="66" width="80" height="22" rx="11"/>
+  </g>
+  <circle cx="72" cy="50" r="22" fill="#a3cbf3"/>
+  <!-- 책갈피 리본 (문서 뒤) -->
+  <path d="M80 33 L80 66 L91 66 L91 33 L85.5 38 Z" fill="#33507c"/>
+  <!-- 뒷장 -->
+  <rect x="47" y="45" width="40" height="55" rx="4" fill="#c4332a"/>
+  <!-- 문서 + 접힌 모서리 -->
+  <path d="M46 40 H74 L86 52 V92 A4 4 0 0 1 82 96 H46 A4 4 0 0 1 42 92 V44 A4 4 0 0 1 46 40 Z" fill="#e5483d"/>
+  <path d="M74 40 V48 A4 4 0 0 0 78 52 H86 Z" fill="#f4968e"/>
+  <text x="62" y="76" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Arial, sans-serif" font-size="14" font-weight="800" fill="#ffffff" letter-spacing="0.3">PDF</text>
+  <!-- 재생 배지 -->
+  <circle cx="88" cy="86" r="16" fill="#2f74e0" stroke="#ffffff" stroke-width="3"/>
+  <path d="M84 78.5 V93.5 L96 86 Z" fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>

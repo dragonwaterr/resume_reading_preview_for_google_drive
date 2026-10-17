@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!-- 16·32px용 간략판: 작은 크기에서 뭉개지는 구름·"PDF" 글자·리본 제외 -->
+  <path d="M7 2 H19 L25 8 V27 A2 2 0 0 1 23 29 H7 A2 2 0 0 1 5 27 V4 A2 2 0 0 1 7 2 Z" fill="#e5483d"/>
+  <path d="M19 2 V6 A2 2 0 0 0 21 8 H25 Z" fill="#f4968e"/>
+  <circle cx="22" cy="22.5" r="8" fill="#2f74e0" stroke="#ffffff" stroke-width="1.6"/>
+  <path d="M19.8 18.6 V26.4 L26.2 22.5 Z" fill="#ffffff" stroke="#ffffff" stroke-width="0.8" stroke-linejoin="round"/>
+</svg>

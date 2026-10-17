@@ -188,13 +188,14 @@ async function onViewerOpen(fileId) {
 - [x] 다중 계정 경로(`/u/1/`)에서 동작
 - [x] 토스트 끄기 설정이 유지되고 다른 기기에도 반영
 - [x] (두 번째 기기) 노트북에서 읽은 위치가 데스크톱에서 이어짐
-
----
 - 결과(2026-10-17): 전 항목 통과. 테스트 중 수정 — 다중 계정 새 탭 경로(`/file/u/N/d/`), 목록 보기 fileId 매칭, 두 기기 sync용 개발 key, 빠른 전환 시 토스트 정리
 
+---
+
 ## 8. 웹스토어 출시 체크리스트
-- [ ] 이름: "〇〇 for Google Drive™" 형식, 기존 "PDF Bookmarks for Google Drive"와 혼동되지 않는 이름, 스토어 동명 검색 완료
-  - 후보: `PDF Pick Up for Google Drive™` / 한국어 로케일 `PDF 이어보기 for Google Drive™`
+- [x] 이름: "〇〇 for Google Drive™" 형식, 기존 "PDF Bookmarks for Google Drive"와 혼동되지 않는 이름, 스토어 동명 검색 완료
+  - 확정(2026-10-17): 영문 `Resume Preview for Google Drive™` / 한국어 로케일 `PDF 이어보기 for Google Drive™`
+  - "PDF Pick Up"은 범용 PDF 뷰어용 동명 확장이 있어 기각 (R-12)
 - [ ] 개발자(게시자) 이름에 Google 미사용
 - [ ] 설명 첫 언급은 "Google Drive™", "Not affiliated with Google." 및 "Google Drive is a trademark of Google LLC." 명시
 - [ ] 키워드 나열 없이 실제 기능 위주 설명
@@ -202,8 +203,9 @@ async function onViewerOpen(fileId) {
 - [ ] 개인정보 보호 탭: 단일 목적 설명, 권한별 사유(storage, drive.google.com), 원격 코드 미사용, 데이터 사용 공시
 - [ ] 개인정보처리방침 URL: "개발자는 데이터를 수집하지 않으며 fileId·페이지 번호는 사용자 브라우저와 Chrome 동기화에만 저장"
 - [ ] 배포 범위: Public
-- [ ] manifest.json의 개발용 `key` 필드 제거 (두 기기 sync 테스트용 고정 ID. 스토어 등록 후 ID를 유지하려면 대시보드의 공개키로 교체)
-- [ ] `src/content/log.js`의 `DEBUG`를 false로 변경, `spike/`·`tests/`·`docs/` 제외
+- [x] 배포 zip은 `node scripts/build.js`로 만든다: 개발용 `key` 제거, `DEBUG` false, `spike/`·`tests/`·`docs/`·`assets/` 제외 (원본은 그대로)
+- [x] 아이콘 16/32/48/128: `assets/*.svg` → `scripts/render-icons.sh` → `icons/` (16·32는 간략판)
+- [x] 등록 문구·개인정보 탭 답변 초안: `docs/store/listing.md`, `docs/store/privacy-practices.md`
 - [ ] zip 루트에 manifest.json 위치 확인 후 제출
 
 ---

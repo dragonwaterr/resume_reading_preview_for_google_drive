@@ -3,6 +3,12 @@
   "name": "__MSG_extName__",
   "version": "0.1.0",
   "description": "__MSG_extDescription__",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "default_locale": "en",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8juYjl3/TbeqeyILKuk6aqPm4AoyRkHI+YVnetmkJVNq913U6is+0MqnhxbidXHW++3E4PD8gBC8q0UWA/Jl7TNOTuZRpOrObEf2Dp510su7dK21RriP35/L7bmlb1xe97nwJD+KWeq+6tUS2Y7gWWsY64wp3P3aXeYSZRnSFDG5F6nccwHdU8GUnpLvYNJrqH8fM2N+iX79e8KU3d0AB0X5vdFIo/OElWnOwmHOocw2ThvbiU29PLgESor5Fnokg2CauP6dTjr1z9xK0pIcKFz6Zfs82iHVshZcbuXWXviW2kT4xvw0N1euJZD9PIFqfmJbO0d/pBRVNh6h3/+QaQIDAQAB",
   "permissions": [
