@@ -10,16 +10,16 @@
 ## English
 
 **Name**
-Resume Preview for Google Drive™
+Resume Reading for Google Drive™
 
 **Summary** (132자 이내)
 Reopens your Google Drive™ PDF previews at the page you last viewed. No extra clicks, no bookmarks to manage.
 
 **Description**
 ```
-Resume Preview picks up where you left off in Google Drive™ PDF previews.
+Resume Reading picks up where you left off in Google Drive™ PDF previews.
 
-Google Drive™ always opens a PDF preview at page 1. With Resume Preview, the preview jumps straight back to the page you were last reading, automatically.
+Google Drive™ always opens a PDF preview at page 1. With Resume Reading, the preview jumps straight back to the page you were last reading, automatically.
 
 How it works
 • Open a PDF preview in Google Drive™, either from your file list or in a full tab.

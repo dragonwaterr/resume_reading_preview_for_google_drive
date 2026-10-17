@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "Resume Preview for Google Drive™",
+    "message": "Resume Reading for Google Drive™",
     "description": "Extension name. Must keep the '... for Google Drive™' form (trademark guidelines)."
   },
   "extDescription": {
@@ -15,7 +15,7 @@
     }
   },
   "optionsTitle": {
-    "message": "Resume Preview settings",
+    "message": "Resume Reading settings",
     "description": "Options page title."
   },
   "optionsToastLabel": {

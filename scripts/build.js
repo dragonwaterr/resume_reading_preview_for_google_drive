@@ -11,7 +11,7 @@ const INCLUDE = ['manifest.json', '_locales', 'icons', 'src'];
 
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest.json'), 'utf8'));
 const stage = path.join(ROOT, 'dist', 'stage');
-const zipPath = path.join(ROOT, 'dist', `resume-preview-${manifest.version}.zip`);
+const zipPath = path.join(ROOT, 'dist', `resume-reading-${manifest.version}.zip`);
 
 fs.rmSync(stage, { recursive: true, force: true });
 fs.rmSync(zipPath, { force: true });

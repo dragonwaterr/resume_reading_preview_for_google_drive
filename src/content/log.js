@@ -2,5 +2,5 @@
 const DEBUG = true;
 
 function log(...args) {
-  if (DEBUG) console.debug('[Resume Preview]', ...args);
+  if (DEBUG) console.debug('[Resume Reading]', ...args);
 }
