@@ -58,6 +58,7 @@ async function onViewerOpen(fileId) {
 - 이름·아이콘에 Google 상표/로고를 쓰지 않는다. 이름 형식은 "〇〇 for Google Drive™". (R-10)
 
 ## 작업 방식
+- 단위 테스트: `node --test tests/` (Node 내장 테스트 러너, 의존성 없음). 저장소처럼 chrome API를 쓰는 파일은 `node:vm` + 가짜 `chrome.storage`로 검증한다.
 - 수정 후 반영 방법을 안내한다.
   - content script 수정 → `chrome://extensions`에서 확장 새로고침 + 드라이브 탭 새로고침
   - service worker / 옵션 페이지 수정 → 확장 새로고침

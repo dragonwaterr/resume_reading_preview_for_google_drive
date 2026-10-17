@@ -10,6 +10,7 @@
       "js": [
         "src/content/log.js",
         "src/content/driveDom.js",
+        "src/content/bookmarkLogic.js",
         "src/content/bookmarkStore.js",
         "src/content/tracker.js",
         "src/content/main.js"

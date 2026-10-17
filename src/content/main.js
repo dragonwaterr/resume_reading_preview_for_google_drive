@@ -21,7 +21,7 @@ async function jumpTo(viewer, page, token) {
 }
 
 async function onViewerOpen(fileId, viewer, token) {
-  const saved = await bookmarkStore.load(fileId);
+  const saved = await bookmarkStore.open(fileId);
   if (!isCurrent(token)) return;
   if (saved) {
     const ok = await jumpTo(viewer, saved, token);
