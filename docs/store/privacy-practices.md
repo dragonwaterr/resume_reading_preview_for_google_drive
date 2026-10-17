@@ -36,6 +36,6 @@ The content script runs only on Google Drive pages. It detects when a PDF previe
 
 ## 개인정보처리방침 URL
 ```
-https://dragonwaterr.github.io/resume_preview_for_google_drive/privacy.html
+https://dragonwaterr.github.io/resume_reading_preview_for_google_drive/privacy.html
 ```
 - 루프 5의 2번 작업(GitHub Pages 게시) 후 실제로 열리는지 확인한다.

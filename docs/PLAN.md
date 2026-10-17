@@ -195,7 +195,7 @@ async function onViewerOpen(fileId) {
 ## 8. 웹스토어 출시 체크리스트
 - [x] 이름: "〇〇 for Google Drive™" 형식, 기존 "PDF Bookmarks for Google Drive"와 혼동되지 않는 이름, 스토어 동명 검색 완료
   - 확정(2026-10-17): 영문 `Resume Reading for Google Drive™` / 한국어 로케일 `PDF 이어보기 for Google Drive™`
-  - "Resume Preview"는 영어권에서 이력서(résumé) 미리보기로 읽힐 수 있어 기각. 저장소 이름(`resume_preview_for_google_drive`)은 그대로 둔다
+  - "Resume Preview"는 영어권에서 이력서(résumé) 미리보기로 읽힐 수 있어 기각. 저장소 이름도 `resume_reading_preview_for_google_drive`로 변경
   - "PDF Pick Up"은 범용 PDF 뷰어용 동명 확장이 있어 기각 (R-12)
 - [ ] 개발자(게시자) 이름에 Google 미사용
 - [ ] 설명 첫 언급은 "Google Drive™", "Not affiliated with Google." 및 "Google Drive is a trademark of Google LLC." 명시
