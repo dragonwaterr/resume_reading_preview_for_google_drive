@@ -1,7 +1,7 @@
 // 드라이브 DOM 선택자에 의존하는 코드는 전부 이 파일에만 둔다 (R-01, ADR-002).
 // 조회가 실패하면 예외를 던지지 않고 null/false를 반환한다.
 const driveDom = (() => {
-  const FILE_URL_RE = /\/file\/d\/([\w-]{10,})/;
+  const FILE_URL_RE = /\/file\/(?:u\/\d+\/)?d\/([\w-]{10,})/; // 다중 계정: /file/u/1/d/{id}
   const MIN_PAGE_HEIGHT = 100; // 페이지 사이의 "댓글 추가" 버튼(42px) 같은 작은 자식 제외
 
   const norm = (s) => (s || '').replace(/\s+/g, ' ').trim();
