@@ -52,9 +52,21 @@ function beginSession(fileId, viewer) {
 function endSession() {
   session.teardown?.();
   session = null;
+  toast.hide(); // 이전 파일의 토스트가 다음 파일을 가리지 않도록
 }
 
+// 확장이 재로드·업데이트되면 이 탭의 스크립트는 확장과 연결이 끊겨 chrome API가 모두 실패한다.
+// 끊긴 뒤에는 폴링을 멈춰 아무것도 하지 않는다 (새 버전은 탭을 새로고침하면 다시 주입된다).
+const isContextAlive = () => !!chrome.runtime?.id;
+
 function poll() {
+  if (!isContextAlive()) {
+    clearInterval(pollTimer);
+    session?.teardown?.();
+    session = null;
+    log('확장 연결이 끊겨 중지합니다 (탭 새로고침 필요)');
+    return;
+  }
   const viewer = driveDom.getViewer();
   const fileId = viewer ? driveDom.getFileId() : null;
 
@@ -73,4 +85,4 @@ function poll() {
   }
 }
 
-setInterval(poll, POLL_MS);
+const pollTimer = setInterval(poll, POLL_MS);

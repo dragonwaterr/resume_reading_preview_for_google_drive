@@ -1,6 +1,6 @@
 // 이동 알림 토스트 (FR-6). 드라이브 스타일과 격리하려고 Shadow DOM으로 렌더링한다.
 // 드라이브는 Trusted Types를 강제하므로 innerHTML 없이 DOM API로만 만든다.
-const TOAST_VISIBLE_MS = 2500;
+const TOAST_VISIBLE_MS = 1250; // 파일을 빠르게 넘길 때 이전 토스트가 가리지 않도록 짧게
 const TOAST_FADE_MS = 200;
 
 const toast = (() => {
@@ -59,5 +59,5 @@ const toast = (() => {
     timers.push(setTimeout(clear, TOAST_VISIBLE_MS + TOAST_FADE_MS));
   }
 
-  return { show };
+  return { show, hide: clear };
 })();
