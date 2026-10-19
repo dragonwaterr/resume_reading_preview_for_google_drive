@@ -25,7 +25,7 @@
 
 ## 설치
 
-- **Chrome 웹스토어**: 심사 중입니다 (게시 후 링크 추가 예정).
+- **Chrome 웹스토어**: [링크](https://chromewebstore.google.com/detail/pdf-%EC%9D%B4%EC%96%B4%EB%B3%B4%EA%B8%B0-for-google-drive/ifecebdcmaehbfkldjkpjimmmmdchagk?hl=ko)
 - **직접 설치(개발 버전)**: 아래 [개발](#개발) 참고.
 
 ## 개인정보
