@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "__MSG_extDescription__",
   "icons": {
     "16": "icons/icon16.png",
@@ -26,13 +26,16 @@
       "js": [
         "src/content/log.js",
         "src/shared/settings.js",
+        "src/content/nameMatch.js",
         "src/content/driveDom.js",
         "src/content/bookmarkLogic.js",
         "src/content/bookmarkStore.js",
+        "src/content/frameLink.js",
         "src/content/tracker.js",
         "src/content/toast.js",
         "src/content/main.js"
       ],
+      "all_frames": true,
       "run_at": "document_idle"
     }
   ]

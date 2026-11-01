@@ -35,45 +35,88 @@ const driveDom = (() => {
     return !!viewer && viewer.docEl.isConnected && isVisible(viewer.docEl);
   }
 
-  // 그리드 항목이 파일명 name을 가리키는지.
-  // 바둑판 보기: aria-label = "파일명 PDF 추가 정보…" / 목록 보기: aria-label 없이 파일명만 담긴 하위 칸이 있다.
-  function itemHasName(item, name) {
-    const label = norm(item.getAttribute('aria-label'));
-    if (label === name || label.startsWith(name + ' ')) return true;
-    if (norm(item.textContent) === name) return true;
+  // 그리드 항목의 이름 단서: 바둑판 보기는 aria-label = "파일명 PDF 추가 정보…", 목록 보기는 파일명만 담긴 하위 칸.
+  const indexItem = (item) => {
+    const texts = new Set([norm(item.textContent)]);
     for (const el of item.querySelectorAll('*')) {
-      if (el.childElementCount === 0 && norm(el.textContent) === name) return true;
+      if (el.childElementCount === 0) texts.add(norm(el.textContent));
     }
-    return false;
+    return { id: item.getAttribute('data-id'), label: norm(item.getAttribute('aria-label')), texts };
+  };
+
+  const GRID_SEL = '[role="grid"], [role="treegrid"]';
+  const NAME_EXCLUDE_SEL = '[role="document"], [role="grid"], [role="treegrid"], [role="tree"], [role="navigation"]';
+  const MAX_NAME_LEN = 255;
+
+  // 오버레이 미리보기는 최상위 프레임 위에 뜨는 /viewer/ iframe이다 (ADR-007). 보이는 것만 대상으로 한다.
+  function getViewerFrame() {
+    try {
+      return [...document.querySelectorAll('iframe')]
+        .find((f) => f.src.startsWith(location.origin + '/viewer/') && isVisible(f)) || null;
+    } catch (e) {
+      log('getViewerFrame 실패', e);
+    }
+    return null;
   }
 
-  // 폴링마다 그리드 전체를 훑지 않도록, 같은 폴더·같은 툴바 파일명이면 직전 매칭 결과를 재사용한다
-  let nameMatchCache = { key: null, id: null };
+  // 화면의 말단 텍스트 → 그 텍스트를 가진 요소들. 툴바 파일명은 role 없는 요소라서 위치로 특정할 수 없어
+  // 문서 전체를 훑고, 그리드 항목에 정확히 1개 걸리는 텍스트만 getFileId에서 증거로 쓴다 (가시성 검사는 그 뒤에).
+  function collectLeafTexts() {
+    const byText = new Map();
+    for (const el of document.querySelectorAll('*')) {
+      if (el.childElementCount !== 0) continue;
+      const text = norm(el.textContent);
+      if (!text || text.length > MAX_NAME_LEN) continue;
+      (byText.get(text) || byText.set(text, []).get(text)).push(el);
+    }
+    return byText;
+  }
 
-  // 새 탭: URL. 오버레이: 툴바 파일명과 일치하는 그리드 항목의 data-id (유일할 때만).
-  function getFileId() {
+  // iframe 안(뷰어 문서)에서: 보이는 말단 텍스트 후보를 최상위 프레임으로 보내기 위해 모은다. 페이지 본문(role=document)은 제외.
+  function getFrameTexts() {
+    try {
+      const texts = new Set();
+      for (const el of document.querySelectorAll('*')) {
+        if (el.childElementCount !== 0 || el.closest('[role="document"]')) continue;
+        const text = norm(el.textContent);
+        if (text && text.length <= MAX_NAME_LEN && isVisible(el)) texts.add(text);
+        if (texts.size >= 100) break;
+      }
+      return [...texts];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  const isNameEl = (el) => isVisible(el) && !el.closest(NAME_EXCLUDE_SEL);
+
+  // 진단용: 마지막 getFileId 실패 시점의 상태
+  let lastDiag = null;
+  const getDiag = () => lastDiag;
+
+  // 새 탭: URL. 오버레이: 파일명 후보와 일치하는 그리드 항목의 data-id (유일할 때만, 판정은 nameMatch).
+  // useOverlayText: iframe 오버레이는 파일명이 heading이 아니라서 문서 전체의 텍스트에서도 찾는다.
+  // frameTexts: iframe(뷰어 툴바)이 알려준 텍스트. 이미 뷰어 쪽 증거이므로 가시성·위치 검사를 하지 않는다.
+  function getFileId(useOverlayText = false, frameTexts = []) {
     try {
       const fromUrl = location.pathname.match(FILE_URL_RE)?.[1];
       if (fromUrl) return fromUrl;
-      const names = [...document.querySelectorAll('[role="heading"]')]
-        .filter((h) => isVisible(h) && !h.closest('[role="document"], [role="grid"], [role="treegrid"]'))
-        .map((h) => norm(h.textContent))
-        .filter(Boolean);
-      const cacheKey = location.href + '\n' + names.join('\n');
-      if (nameMatchCache.key === cacheKey) return nameMatchCache.id;
 
-      const gridItems = [...document.querySelectorAll('[data-id]')]
-        .filter((el) => el.closest('[role="grid"], [role="treegrid"]'));
-      let id = null;
-      for (const name of names) {
-        const ids = new Set(gridItems
-          .filter((g) => itemHasName(g, name))
-          .map((g) => g.getAttribute('data-id')));
-        if (ids.size === 1) id = [...ids][0];
-        if (ids.size >= 1) break; // 2개 이상은 동명 파일: 오기록보다 미추적이 낫다
+      const gridIndex = [...document.querySelectorAll('[data-id]')]
+        .filter((el) => el.closest(GRID_SEL))
+        .map(indexItem);
+      const byText = useOverlayText ? collectLeafTexts() : new Map();
+      for (const h of document.querySelectorAll('[role="heading"]')) {
+        const text = norm(h.textContent);
+        if (text) (byText.get(text) || byText.set(text, []).get(text)).push(h);
       }
-      // 찾지 못한 결과는 캐시하지 않는다 (그리드 항목이 늦게 렌더링될 수 있음)
-      nameMatchCache = id ? { key: cacheKey, id } : { key: null, id: null };
+      const names = new Set(frameTexts);
+      for (const [text, els] of byText) {
+        if (els.some(isNameEl)) names.add(text);
+      }
+
+      const { id, stats } = nameMatch.pickFileId(gridIndex, [...names]);
+      lastDiag = id ? null : stats;
       return id;
     } catch (e) {
       log('getFileId 실패', e);
@@ -114,5 +157,5 @@ const driveDom = (() => {
     }
   }
 
-  return { getViewer, isAlive, getFileId, getPageCount, getCurrentPage, scrollToPage };
+  return { getViewer, isAlive, getViewerFrame, getFileId, getFrameTexts, getDiag, getPageCount, getCurrentPage, scrollToPage };
 })();

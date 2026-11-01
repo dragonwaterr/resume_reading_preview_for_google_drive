@@ -138,6 +138,17 @@ async function onViewerOpen(fileId) {
 - 결정: B (2026-10-17)
 - 근거: 업데이트가 드물어 영향이 "업데이트 직후 이미 열려 있던 탭" 한정이고, 권한 추가(개인정보 탭 사유 작성)를 피한다. 업데이트가 잦아지면 A로 재검토.
 
+### ADR-007. 오버레이 미리보기 iframe 대응 (v0.1.1)
+- 맥락: 2026-11 무렵 드라이브가 오버레이 미리보기를 최상위 문서가 아닌 `https://drive.google.com/viewer/main?…` iframe 안에 그리기 시작했다(새 탭 `/file/d/…/view`는 그대로). 최상위 프레임에는 `[role="document"]`가 없어 `getViewer()`가 항상 null이 되었고, 폴더에서 연 미리보기는 기록·복원이 전혀 동작하지 않았다. 콘솔 조사: 보이는 `[role="document"]` 0개, 보이는 iframe `viewer/main`, 그리드 `data-id` 매칭은 정상, 툴바 파일명은 `role="heading"`이 아닌 role 없는 요소.
+- 선택지: (A) `all_frames`로 iframe에도 주입하고 최상위 프레임이 fileId를 `postMessage`로 전달 (B) 최상위 프레임이 `iframe.contentDocument`로 직접 조작 (C) 오버레이 포기
+- 결정: A (2026-11-01)
+  - 최상위: 뷰어가 직접 보이면 기존 방식(새 탭·구형 오버레이). 없고 보이는 `/viewer/` iframe이 있으면 폴링마다 fileId를 iframe에 전송(하트비트)
+  - iframe: 뷰어는 직접 조작하되 fileId는 받은 값만 사용. 2초 넘게 하트비트가 없으면(미리보기 닫힘) null로 보고 세션을 종료
+  - 수신 검증: `e.source === window.parent`, `e.origin === location.origin`, fileId 형식 정규식 (규약은 `frameLink.js`, 단위 테스트 있음)
+  - 파일명 후보: 오버레이(iframe을 감싼, 그리드를 포함하지 않는 가장 큰 조상) 안의 말단 텍스트 전부. 여러 항목에 걸리는 텍스트는 증거에서 제외하고, 정확히 1개 항목에 걸린 이름들이 같은 파일을 가리킬 때만 확정 (동명 파일은 미추적, R-01)
+- 근거: 권한 추가 없음(기존 호스트 패턴이 `/viewer/*` 포함). B는 같은 출처 가정이 깨지면(sandbox·교차 출처) 즉시 실패
+- 한계: 드라이브가 iframe 구조·툴바 마크업을 다시 바꾸면 재발할 수 있음 (R-01). 콘솔 `[Resume Reading]` 로그는 개발 빌드에서만 나온다
+
 ### 기타 확정 사항
 - [x] "마지막 페이지" = 마지막으로 머문 페이지 (가장 멀리 읽은 페이지 아님)
 - [x] 이동 알림 = 토스트 기본 켜짐, 옵션에서 끄기
@@ -193,7 +204,7 @@ async function onViewerOpen(fileId) {
 ---
 
 ## 8. 웹스토어 출시 체크리스트
-- 상태(2026-10-17): **심사 제출 완료** (v0.1.0, 공개). 개인정보처리방침 `…/privacy.html` 200 확인 — Pages 루트(`/`)는 index가 없어 404이며 무관
+- 상태(2026-10-17): **심사 제출 완료** (v0.1.0, 공개). 2026-11-01 오버레이 iframe 대응으로 v0.1.1 준비 (ADR-007). 개인정보처리방침 `…/privacy.html` 200 확인 — Pages 루트(`/`)는 index가 없어 404이며 무관
 - [x] 이름: "〇〇 for Google Drive™" 형식, 기존 "PDF Bookmarks for Google Drive"와 혼동되지 않는 이름, 스토어 동명 검색 완료
   - 확정(2026-10-17): 영문 `Resume Reading for Google Drive™` / 한국어 로케일 `PDF 이어보기 for Google Drive™`
   - "Resume Preview"는 영어권에서 이력서(résumé) 미리보기로 읽힐 수 있어 기각. 저장소 이름도 `resume_reading_preview_for_google_drive`로 변경
