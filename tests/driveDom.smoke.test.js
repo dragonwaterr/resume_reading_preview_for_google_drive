@@ -28,12 +28,12 @@ test('driveDom: 빈 문서에서 공개 함수가 예외·내부 오류 없이 �
   assert.equal(driveDom.getViewer(), null);
   assert.equal(driveDom.getViewerFrame(), null);
   assert.equal(driveDom.getFileId(), null);
-  assert.equal(driveDom.getFileId(true, ['COD.pdf']), null);
+  assert.equal(driveDom.getFileId(true, ['Sample.pdf']), null);
   assert.equal(driveDom.getFrameTexts().length, 0);
   assert.equal(errors.length, 0, JSON.stringify(errors.map(String)));
 });
 
 test('driveDom: 새 탭 URL이면 URL에서 fileId를 읽는다', () => {
-  const { driveDom } = load('/file/d/1-yYY3QphqCMO3TrO6X20rPemBWnzCUvR/view');
-  assert.equal(driveDom.getFileId(), '1-yYY3QphqCMO3TrO6X20rPemBWnzCUvR');
+  const { driveDom } = load('/file/d/1AbCdEfGhIjKlMnOpQrStUvWxYz012345/view');
+  assert.equal(driveDom.getFileId(), '1AbCdEfGhIjKlMnOpQrStUvWxYz012345');
 });

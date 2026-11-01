@@ -2,7 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { makeMessage, parseMessage, createHostIdStore, STALE_MS } = require('../src/content/frameLink.js');
 
-const ID = '1-yYY3QphqCMO3TrO6X20rPemBWnzCUvR';
+const ID = '1AbCdEfGhIjKlMnOpQrStUvWxYz012345';
 
 test('makeMessage → parseMessage 왕복: fileId 그대로', () => {
   assert.equal(parseMessage(makeMessage(ID)), ID);

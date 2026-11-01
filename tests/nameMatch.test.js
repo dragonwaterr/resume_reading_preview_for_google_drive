@@ -3,10 +3,10 @@ const assert = require('node:assert/strict');
 const { pickFileId } = require('../src/content/nameMatch.js');
 
 const item = (id, label, ...texts) => ({ id, label, texts: new Set(texts) });
-const NAME = 'COD Chapter 2 rev ISA for MIPS.pdf';
+const NAME = 'Sample Report 2.pdf';
 const grid = [
   item('idA', `${NAME} PDF 추가 정보(Option + →)`, NAME, 'PDF', '나'),
-  item('idB', 'COD Chapter 4 rev Processor Architecture.pdf PDF 추가 정보', 'COD Chapter 4 rev Processor Architecture.pdf', 'PDF', '나'),
+  item('idB', 'Sample Report 4.pdf PDF 추가 정보', 'Sample Report 4.pdf', 'PDF', '나'),
 ];
 
 test('파일명이 정확히 한 항목에 걸리면 그 id', () => {
@@ -28,7 +28,7 @@ test('같은 이름의 파일이 2개면 추적하지 않는다 (null)', () => {
 });
 
 test('서로 다른 파일을 가리키는 증거가 둘이면 null', () => {
-  assert.equal(pickFileId(grid, [NAME, 'COD Chapter 4 rev Processor Architecture.pdf']).id, null);
+  assert.equal(pickFileId(grid, [NAME, 'Sample Report 4.pdf']).id, null);
 });
 
 test('증거가 없으면 null이고 통계를 돌려준다', () => {
